@@ -1,9 +1,10 @@
 #ifndef BSTREE_H
 #define BSTREE_H
 
-typedef struct bstree{
-	int key;
-	char *value;
+typedef struct {
+	int value;
+	char *key;
+	bstree *parent;
 	bstree *left;
 	bstree *right;
 } bstree;
