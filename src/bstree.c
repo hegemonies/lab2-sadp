@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "bstree.h"
 
-bstree *bstree_create(char *key, int value)
+bstree_t *bstree_create(char *key, int value)
 {
-	bstree *b = malloc(sizeof(bstree));
+	bstree_t *b = malloc(sizeof(bstree_t));
 	if (b == NULL) {
 		return NULL;
 	}
@@ -19,27 +20,10 @@ bstree *bstree_create(char *key, int value)
 	b->right = NULL;
 	return b;
 }
-/*
-void bstree_add(bstree *tree, char *key, int value)
-{
-	bstree *a = bstree_create(key, value);
-	if (a == NULL) {
-		return;
-	}
-	a->parent = &tree;
-	if (tree->left == NULL) {
-		tree->left = &a;
-	} else if (tree->right == NULL) {
-		tree->right = &a;
-	} else {
-		return;
-	}
-}
-*/
 
-void bstree_add(bstree *tree, char *key, int value)
+void bstree_add(bstree_t *tree, char *key, int value)
 {
-	bstree *parent = NULL;
+	bstree_t *parent = NULL;
 	while (tree == NULL) {
 		parent = tree;
 		if (value < tree->value) {
@@ -50,14 +34,14 @@ void bstree_add(bstree *tree, char *key, int value)
 			return;
 		}
 	}
-	bstree *node = bstree_create(key, value);
+	bstree_t *node = bstree_create(key, value);
 	if (value < parent->value) {
 		parent->left = node;
 	} else {
 		parent->right = node;
 	}
 }
-
+/*
 bstree *bstree_lookup(bstree *tree, char *key)
 {
 
@@ -66,3 +50,4 @@ bstree *bstree_lookup(bstree *tree, char *key)
 bstree *bstree_min(bstree *tree);
 
 bstree *bstree_max(bstree *tree);
+*/
