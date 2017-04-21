@@ -29,27 +29,27 @@ void bstree_add(bstree_t *tree, char *key, int value)
 	}
 	for (parent = tree; tree != NULL; ) {
 		parent = tree;
-		if (value < tree->value) {
+		if (strcmp(tree->key, key) < 0) {
 			tree = tree->left;
-		} else if (value > tree->value) {
+		} else if (strcmp(tree->key, key) > 0) {
 			tree = tree->right;
 		} else
 			return;
 	}
 	bstree_t *node = bstree_create(key, value);
-	if (value < parent->value) {
+	if (strcmp(parent->key, key) < 0) {
 		parent->left = node;
 	} else {
 		parent->right = node;
 	}
 }
 
-bstree_t *bstree_lookup(bstree_t *tree, int key)
+bstree_t *bstree_lookup(bstree_t *tree, char *key)
 {
 	while (tree != NULL) {
-		if (key == tree->value) {
+		if (strcmp(tree->key, key) == 0) {
 			return tree;
-		} else if (key < tree->value) {
+		} else if (strcmp(tree->key, key) < 0) {
 			tree = tree->left;
 		} else {
 			tree = tree->right;

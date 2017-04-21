@@ -15,7 +15,7 @@ bstree_t *bstree_create(char *key, int value);
 
 void bstree_add(bstree_t *tree, char *key, int value);
 
-bstree_t *bstree_lookup(bstree_t *tree, int key);
+bstree_t *bstree_lookup(bstree_t *tree, char *key);
 
 bstree_t *bstree_min(bstree_t *tree);
 

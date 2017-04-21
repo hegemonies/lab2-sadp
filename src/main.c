@@ -37,20 +37,25 @@ int main()
 	FILE *text = fopen("test.txt", "r");
 	int mem = 20;
 	int arr[mem];
-	write_to_arr(arr, mem);
-	//print_arr(arr, mem);
-	mix(arr, mem);
-	//printf("\n");
-	//print_arr(arr, mem);
-	//return 0;
-	
-	//char *key = malloc(sizeof(char) * mem);
 	char *buffer;
 	size_t len = 0;
 	int count = 1;
-	getline(&buffer, &len, text); 
+	write_to_arr(arr, mem);
+	//print_arr(arr, mem);
+	//mix(arr, mem);
+	//printf("\n");
+	//print_arr(arr, mem);
+	//return 0;
+	char tmp_buffer[20];
+	for (int i = 0; getline(&buffer, &len, text) != -1; i++) {
+		sprintf(tmp_buffer, "%s", buffer);
+	}
+	/*
+	//char *key = malloc(sizeof(char) * mem);
+	//getline(&buffer, &len, text); 
 		bstree_t *root = bstree_create(buffer, arr[0]);
 	printf("success: value(%d), key - %s", arr[0], buffer);
+	
 	for (int i = 1; getline(&buffer, &len, text) != -1 ; i++) {
 		//bstree_t *a = bstree_create(buffer, arr[i]);
 		bstree_add(root, buffer, arr[i]);
@@ -60,8 +65,9 @@ int main()
 	printf("%d\n", count);
 	fclose(text);
 	
-	bstree_t *tmp = bstree_lookup(root, 6);
+	bstree_t *node_1 = bstree_add(root,)
+	bstree_t *tmp = bstree_lookup(root, "absolument");
 	printf("success search: key - %s, value - %d\n", tmp->key, tmp->value);
-	
+	*/
 	return 0;
 }
