@@ -19,7 +19,7 @@ void print_arr(int arr[], int mem)
 void write_to_arr(int arr[], int mem)
 {
 	for (int i = 0; i < mem; i++) {
-		arr[i] = getrand(0, 500);
+		arr[i] = getrand(0, 19);
 	}
 }
 
@@ -34,8 +34,8 @@ void mix(int arr[], int mem)
 
 int main()
 {
-	FILE *text = fopen("war_and_peace.txt", "r");
-	int mem = 51179;
+	FILE *text = fopen("test.txt", "r");
+	int mem = 20;
 	int arr[mem];
 	write_to_arr(arr, mem);
 	//print_arr(arr, mem);
@@ -47,13 +47,21 @@ int main()
 	//char *key = malloc(sizeof(char) * mem);
 	char *buffer;
 	size_t len = 0;
-	for (int i = 0; getline(&buffer, &len, text) != -1 ; i++) {
-		//fscanf(text, "%s", buffer);
-		//char *key = malloc(sizeof(char) * (strlen(buffer) + 1));
-		//strncpy(key, buffer, strlen(buffer) + 1);
-		bstree_t *a = bstree_create(buffer, arr[i]);
-		bstree_add(a, buffer, arr[i]);
+	int count = 1;
+	getline(&buffer, &len, text); 
+		bstree_t *root = bstree_create(buffer, arr[0]);
+	printf("success: value(%d), key - %s", arr[0], buffer);
+	for (int i = 1; getline(&buffer, &len, text) != -1 ; i++) {
+		//bstree_t *a = bstree_create(buffer, arr[i]);
+		bstree_add(root, buffer, arr[i]);
+		printf("success: value(%d), key - %s", arr[i], buffer);
+		count++;
 	}
+	printf("%d\n", count);
 	fclose(text);
+	
+	bstree_t *tmp = bstree_lookup(root, 6);
+	printf("success search: key - %s, value - %d\n", tmp->key, tmp->value);
+	
 	return 0;
 }
