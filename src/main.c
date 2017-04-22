@@ -34,22 +34,29 @@ void mix(int arr[], int mem)
 
 int main()
 {
-	FILE *text = fopen("test.txt", "r");
-	int mem = 20;
-	int arr[mem];
-	char *buffer;
+	FILE *text = fopen("war_and_peace.txt", "r");
+	//int mem = 20;
+	//int arr[mem];
+	
 	size_t len = 0;
-	int count = 1;
-	write_to_arr(arr, mem);
+	//int count = 1;
+	//write_to_arr(arr, mem);
 	//print_arr(arr, mem);
 	//mix(arr, mem);
 	//printf("\n");
 	//print_arr(arr, mem);
 	//return 0;
-	char tmp_buffer[20];
+	char *buffer = NULL;
+	char *tmp_buffer[50000];
 	for (int i = 0; getline(&buffer, &len, text) != -1; i++) {
-		sprintf(tmp_buffer, "%s", buffer);
+		tmp_buffer[i] = malloc(sizeof(buffer));
+		strcpy(tmp_buffer[i], buffer);
 	}
+	for (int i = 0; i < 50000; i++) {
+		printf("%s", tmp_buffer[i]);
+	}
+	free(buffer);
+	fclose(text);
 	/*
 	//char *key = malloc(sizeof(char) * mem);
 	//getline(&buffer, &len, text); 
