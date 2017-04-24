@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include "bstree.h"
 
-bstree_t *bstree_create(char *key, int value)
+bstree *bstree_create(char *key, int value)
 {
-	bstree_t *b = malloc(sizeof(bstree_t));
+	bstree *b = malloc(sizeof(bstree));
 	if (b == NULL) {
 		return NULL;
 	}
@@ -15,36 +15,37 @@ bstree_t *bstree_create(char *key, int value)
 	}
 	strcpy(b->key, key);
 	b->value = value;
-	b->parent = NULL;
 	b->left = NULL;
 	b->right = NULL;
 	return b;
 }
 
-void bstree_add(bstree_t *tree, char *key, int value)
-{
-	bstree_t *parent;
+void bstree_add(bstree *tree, char *key, int value)
+{	
+	bstree *parent, *node;
 	if (tree == NULL) {
 		return;
 	}
+	
 	for (parent = tree; tree != NULL; ) {
 		parent = tree;
-		if (strcmp(tree->key, key) < 0) {
+		if (value < tree->value) {
 			tree = tree->left;
-		} else if (strcmp(tree->key, key) > 0) {
+		} else if (value > tree->value) {
 			tree = tree->right;
-		} else
+		} else {
 			return;
+		}
 	}
-	bstree_t *node = bstree_create(key, value);
-	if (strcmp(parent->key, key) < 0) {
+	node = bstree_create(key, value);
+	if (value < tree->value) {
 		parent->left = node;
 	} else {
 		parent->right = node;
 	}
 }
 
-bstree_t *bstree_lookup(bstree_t *tree, char *key)
+bstree *bstree_lookup(bstree *tree, char *key)
 {
 	while (tree != NULL) {
 		if (strcmp(tree->key, key) == 0) {
@@ -58,7 +59,7 @@ bstree_t *bstree_lookup(bstree_t *tree, char *key)
 	return tree;
 }
 
-bstree_t *bstree_min(bstree_t *tree) {
+bstree *bstree_min(bstree *tree) {
 	if (tree == NULL) {
 		return NULL;
 	}
@@ -68,7 +69,7 @@ bstree_t *bstree_min(bstree_t *tree) {
 	return tree;
 }
 
-bstree_t *bstree_max(bstree_t *tree) {
+bstree *bstree_max(bstree *tree) {
 	if (tree == NULL) {
 		return NULL;
 	}
@@ -76,4 +77,50 @@ bstree_t *bstree_max(bstree_t *tree) {
 		tree = tree->right;
 	}
 	return tree;
+}
+
+void printf_tree(bstree *tree)
+{
+    if (tree == NULL)
+    {
+       return;
+    }
+    printf_tree(tree->left);
+    printf("%d : %s", tree->value, tree->key);
+    printf_tree(tree->right);
+}
+
+int insert(struct tree * search_tree, int item)
+{
+	struct node * search_node, **new;
+
+	new = &search_tree->root;
+	search_node = search_tree->root;
+
+	for(;;)
+	{
+		if(search_node == NULL)
+		{
+			search_node = *new = malloc(sizeof * search_node);
+			if(search_node != NULL)
+			{
+				search_node->data = item;
+				search_node->left = search_node->right=NULL;
+				search_tree->count++;
+				return 1;
+			}
+			else return 0;
+		}
+		else if(item == search_node->data) return 2;
+else if(item > search_node->data)
+{
+new = &search_node->right;
+			search_node = search_node->right;
+		}
+		else
+		{
+			new = &search_node->left;
+			search_node = search_node->left;
+		}
+	}
 }

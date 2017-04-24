@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include "bstree.h"
-#include <time.h>
+//#include <time.h>
 
 int getrand(int min, int max)
 {
@@ -23,14 +23,14 @@ void mix(char **str, const int n)
 		tmp--;
 	}
 }
-
-void str_to_bstree(char **str, const int num, bstree_t *root) 
+/*
+void str_to_bstree(char **str, const int num, bstree *root) 
 {
 	for (int i = 1; i < num; i++) {
-		bstree_add(root, str[i], getrand(0, 1000));
+		bstree_add(root, str[i], getrand(0, 100000));
 	}
 }
-
+*/
 void printf_array_str(char **str, int num)
 {
 	for (int i = 0; i < num; i++) {
@@ -61,14 +61,19 @@ int main()
 	}
 	//printf_array_str(str, num);
 	mix(str, num);
-	printf_array_str(str, num);
+	//printf_array_str(str, num);
 	//
-	srand(time(0));
-	bstree_t *root;
-	root = bstree_create(str[(rand() % 10000)], (rand() % 10000));
+	//srand(time(0));
+	bstree *root;
+	root = bstree_create(str[getrand(0, 10000)], getrand(0, 10000));
 	printf("ROOT OF TREE: %d , %s", root->value, root->key);
+	bstree_add(root, str[1], getrand(1, 10000));
 	//str_to_bstree(str, num, root);
-
+	/*
+	for (int i = 1; i < num; i++) {
+		bstree_add(root, str[i], getrand(0, 100000));
+	}
+	*/
 	//free_str(str, num);
 	//free(str);
 	//printf("%p\n", text);
