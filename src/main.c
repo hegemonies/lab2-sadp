@@ -1,80 +1,77 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 #include <inttypes.h>
 #include "bstree.h"
+#include <time.h>
 
 int getrand(int min, int max)
 {
     return (double)rand() / (RAND_MAX + 1.0) * (max - min) + min;
 }
 
-void print_arr(int arr[], int mem)
+void mix(char **str, const int n)
 {
-	for (int i = 0; i < mem; i++) {
-		printf("%d\n", arr[i]);
+	//srand(time(0));
+	int tmp = n - 1;
+	for (int i = 0; tmp > 0; i++) {
+		int rand_int = getrand(0, tmp);
+		char *buf = malloc(strlen(str[tmp]) + 1);
+		strcpy(buf, str[tmp]);
+		strcpy(str[tmp], str[rand_int]);
+		strcpy(str[rand_int], buf);
+		tmp--;
 	}
 }
 
-void write_to_arr(int arr[], int mem)
+void str_to_bstree(char **str, const int num, bstree_t *root) 
 {
-	for (int i = 0; i < mem; i++) {
-		arr[i] = getrand(0, 19);
+	for (int i = 1; i < num; i++) {
+		bstree_add(root, str[i], getrand(0, 1000));
 	}
 }
 
-void mix(int arr[], int mem)
+void printf_array_str(char **str, int num)
 {
-	for (int i = 0; i < mem; i++) {
-		int tmp = arr[i];
-		arr[i] = arr[getrand(0, mem)];
-		arr[getrand(0, mem)] = tmp;
+	for (int i = 0; i < num; i++) {
+		printf("%d: %s", i + 1, str[i]);
+	}
+	printf("\n\n");
+}
+
+void free_str(char **str, int num)
+{
+	for (int i = 0; i < num; i++) {
+		free(str[i]);
 	}
 }
 
 int main()
 {
 	FILE *text = fopen("war_and_peace.txt", "r");
-	//int mem = 20;
-	//int arr[mem];
-	
+	//printf("%p\n", text);
+	char *buf = NULL;
+	int num = 50000;
+	char **str = malloc(num * sizeof(char*));
 	size_t len = 0;
-	//int count = 1;
-	//write_to_arr(arr, mem);
-	//print_arr(arr, mem);
-	//mix(arr, mem);
-	//printf("\n");
-	//print_arr(arr, mem);
-	//return 0;
-	char *buffer = NULL;
-	char *tmp_buffer[50000];
-	for (int i = 0; getline(&buffer, &len, text) != -1; i++) {
-		tmp_buffer[i] = malloc(sizeof(buffer));
-		strcpy(tmp_buffer[i], buffer);
+	for (int i = 0; getline(&buf, &len, text) != -1; i++) {
+		str[i] = (char*) malloc(strlen(buf) + 1);
+		strcpy(str[i], buf);
+		//free(buf);
 	}
-	for (int i = 0; i < 50000; i++) {
-		printf("%s", tmp_buffer[i]);
-	}
-	free(buffer);
-	fclose(text);
-	/*
-	//char *key = malloc(sizeof(char) * mem);
-	//getline(&buffer, &len, text); 
-		bstree_t *root = bstree_create(buffer, arr[0]);
-	printf("success: value(%d), key - %s", arr[0], buffer);
-	
-	for (int i = 1; getline(&buffer, &len, text) != -1 ; i++) {
-		//bstree_t *a = bstree_create(buffer, arr[i]);
-		bstree_add(root, buffer, arr[i]);
-		printf("success: value(%d), key - %s", arr[i], buffer);
-		count++;
-	}
-	printf("%d\n", count);
-	fclose(text);
-	
-	bstree_t *node_1 = bstree_add(root,)
-	bstree_t *tmp = bstree_lookup(root, "absolument");
-	printf("success search: key - %s, value - %d\n", tmp->key, tmp->value);
-	*/
+	//printf_array_str(str, num);
+	mix(str, num);
+	printf_array_str(str, num);
+	//
+	srand(time(0));
+	bstree_t *root;
+	root = bstree_create(str[(rand() % 10000)], (rand() % 10000));
+	printf("ROOT OF TREE: %d , %s", root->value, root->key);
+	//str_to_bstree(str, num, root);
+
+	//free_str(str, num);
+	//free(str);
+	//printf("%p\n", text);
+	//fclose(text);
 	return 0;
 }

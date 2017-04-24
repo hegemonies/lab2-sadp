@@ -58,7 +58,7 @@ bstree_t *bstree_lookup(bstree_t *tree, char *key)
 	return tree;
 }
 
-bstree *bstree_min(bstree *tree) {
+bstree_t *bstree_min(bstree_t *tree) {
 	if (tree == NULL) {
 		return NULL;
 	}
@@ -68,7 +68,7 @@ bstree *bstree_min(bstree *tree) {
 	return tree;
 }
 
-bstree *bstree_max(bstree *tree) {
+bstree_t *bstree_max(bstree_t *tree) {
 	if (tree == NULL) {
 		return NULL;
 	}
