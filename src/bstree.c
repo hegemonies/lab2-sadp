@@ -9,7 +9,7 @@ bstree *bstree_create(char *key, int value)
 	if (b == NULL) {
 		return NULL;
 	}
-	b->key = malloc(strlen(key));
+	b->key = malloc(strlen(key) + 1);
 	if (b->key == NULL) {
 		return NULL;
 	}
@@ -19,30 +19,45 @@ bstree *bstree_create(char *key, int value)
 	b->right = NULL;
 	return b;
 }
-
+/*
 void bstree_add(bstree *tree, char *key, int value)
 {	
-	bstree *parent, *node;
 	if (tree == NULL) {
 		return;
 	}
-	
-	for (parent = tree; tree != NULL; ) {
-		parent = tree;
+	bstree *parent;
+	for (parent = tree; parent != NULL; ) {
+		//parent = tree;
 		if (value < tree->value) {
-			tree = tree->left;
+			parent = tree->left;
 		} else if (value > tree->value) {
-			tree = tree->right;
+			parent = tree->right;
 		} else {
 			return;
 		}
 	}
-	node = bstree_create(key, value);
+	bstree *node = bstree_create(key, value);
+	parent = node;
+	
 	if (value < tree->value) {
 		parent->left = node;
 	} else {
 		parent->right = node;
 	}
+	
+}
+*/
+
+bstree *bstree_add(bstree *tree, char *key, int value)
+{
+	if (tree == NULL) {
+		tree = bstree_create(key, value);
+	} else if (value < tree->value) {
+		tree->left = bstree_add(tree->left, key, value);
+	} else {
+		tree->right = bstree_add(tree->right, key, value);
+	}
+	return tree;
 }
 
 bstree *bstree_lookup(bstree *tree, char *key)
@@ -79,48 +94,13 @@ bstree *bstree_max(bstree *tree) {
 	return tree;
 }
 
-void printf_tree(bstree *tree)
+void print_tree(bstree *tree)
 {
     if (tree == NULL)
     {
-       return;
+    	return;
     }
-    printf_tree(tree->left);
+    print_tree(tree->left);
     printf("%d : %s", tree->value, tree->key);
-    printf_tree(tree->right);
-}
-
-int insert(struct tree * search_tree, int item)
-{
-	struct node * search_node, **new;
-
-	new = &search_tree->root;
-	search_node = search_tree->root;
-
-	for(;;)
-	{
-		if(search_node == NULL)
-		{
-			search_node = *new = malloc(sizeof * search_node);
-			if(search_node != NULL)
-			{
-				search_node->data = item;
-				search_node->left = search_node->right=NULL;
-				search_tree->count++;
-				return 1;
-			}
-			else return 0;
-		}
-		else if(item == search_node->data) return 2;
-else if(item > search_node->data)
-{
-new = &search_node->right;
-			search_node = search_node->right;
-		}
-		else
-		{
-			new = &search_node->left;
-			search_node = search_node->left;
-		}
-	}
+    print_tree(tree->right);
 }

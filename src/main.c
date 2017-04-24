@@ -65,13 +65,21 @@ int main()
 	//
 	//srand(time(0));
 	bstree *root;
-	root = bstree_create(str[getrand(0, 10000)], getrand(0, 10000));
-	printf("ROOT OF TREE: %d , %s", root->value, root->key);
-	bstree_add(root, str[1], getrand(1, 10000));
+	root = bstree_create(str[getrand(0, 50000)], getrand(0, 50000));
+	//printf("ROOT OF TREE: %d , %s", root->value, root->key);
+	//bstree_add(root, str[1], getrand(1, 10000));
 	//str_to_bstree(str, num, root);
-	/*
+	//bstree **tree_arr = malloc(sizeof(bstree*) * 10);
 	for (int i = 1; i < num; i++) {
-		bstree_add(root, str[i], getrand(0, 100000));
+		//tree_arr[i] = malloc(sizeof(bstree));
+		//tree_arr[i] = bstree_add(root, str[i], getrand(1, 10));
+		bstree_add(root, str[i], getrand(1, 50000));
+	}
+	print_tree(root);
+	//bstree *tmp = root->right;
+	/*
+	for (int i = 0; i < num; i++) {
+		printf("%d : %s", (tree_arr[i])->value, (tree_arr[i])->key);
 	}
 	*/
 	//free_str(str, num);
