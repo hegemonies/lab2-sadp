@@ -68,11 +68,14 @@ int main()
 	char *buf = NULL;
 	int num = 50000;
 	char **str = malloc(num * sizeof(char*));
+
 	size_t len = 0;
 	for (int i = 0; getline(&buf, &len, text) != -1; i++) {
 		str[i] = (char*) malloc(strlen(buf) + 1);
 		strcpy(str[i], buf);
-		//free(buf);
+		free(buf);
+		len = 0;
+		buf = 0;
 	}
 	//free(buf);
 	//printf_array_str(str, num);
@@ -98,6 +101,8 @@ int main()
 		printf("%d : %s", (tree_arr[i])->value, (tree_arr[i])->key);
 	}
 	*/
+	free(root);
+
 	free_str(str, num);
 	free(str);
 	//printf("%p\n", text);
