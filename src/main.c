@@ -63,12 +63,12 @@ void free_str(char **str, int num)
 
 int main()
 {
-	FILE *text = fopen("war_and_peace.txt", "r");
+	FILE *text = fopen("text.txt", "r");
 	//printf("%p\n", text);
-	char *buf = NULL;
-	int num = 50000;
+	char buf[512];
+	int num = 10;
 	char **str = malloc(num * sizeof(char*));
-
+	/*
 	size_t len = 0;
 	for (int i = 0; getline(&buf, &len, text) != -1; i++) {
 		str[i] = (char*) malloc(strlen(buf) + 1);
@@ -77,14 +77,19 @@ int main()
 		len = 0;
 		buf = 0;
 	}
-	//free(buf);
+	*/
+	for (int i = 0; fgets(buf, 512, text) != NULL; i++) {
+		//fgets(buf, 512, text);
+		str[i] = (char*) malloc(strlen(buf) + 1);
+		strcpy(str[i], buf);
+	}
 	//printf_array_str(str, num);
 	mix(str, num);
 	//printf_array_str(str, num);
 	//
 	//srand(time(0));
 	bstree *root;
-	root = bstree_create(str[getrand(0, 50000)], getrand(0, 50000));
+	root = bstree_create(str[getrand(0, 10)], getrand(0, 10));
 	//printf("ROOT OF TREE: %d , %s", root->value, root->key);
 	//bstree_add(root, str[1], getrand(1, 10000));
 	//str_to_bstree(str, num, root);
@@ -92,7 +97,7 @@ int main()
 	for (int i = 1; i < num; i++) {
 		//tree_arr[i] = malloc(sizeof(bstree));
 		//tree_arr[i] = bstree_add(root, str[i], getrand(1, 10));
-		bstree_add(root, str[i], getrand(1, 50000));
+		bstree_add(root, str[i], getrand(1, 10));
 	}
 	print_tree(root);
 	//bstree *tmp = root->right;
@@ -101,8 +106,13 @@ int main()
 		printf("%d : %s", (tree_arr[i])->value, (tree_arr[i])->key);
 	}
 	*/
+	//bstree *example = bstree_lookup(root, "achtung");
+	char *tmp_key = "числах";
+	bstree *example = bstree_search(root, tmp_key);
+	if (example != NULL) {
+		printf("%d : %s", example->value, example->key);
+	}
 	free(root);
-
 	free_str(str, num);
 	free(str);
 	//printf("%p\n", text);
