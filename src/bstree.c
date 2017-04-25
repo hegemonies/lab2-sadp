@@ -9,11 +9,14 @@ bstree *bstree_create(char *key, int value)
 	if (b == NULL) {
 		return NULL;
 	}
+	/*
 	b->key = malloc(strlen(key) + 1);
 	if (b->key == NULL) {
 		return NULL;
 	}
-	strcpy(b->key, key);
+	*/
+	b->key = key;
+	//strcpy(b->key, key);
 	b->value = value;
 	b->left = NULL;
 	b->right = NULL;

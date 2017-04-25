@@ -12,6 +12,19 @@ int getrand(int min, int max)
 
 void mix(char **str, const int n)
 {
+	int tmp = n - 1;
+	for (int i = 0; tmp > 0; i++) {
+		int rand_i = getrand(0 , tmp - 1);
+		char *buf = str[tmp];
+		str[tmp] = str[rand_i];
+		str[rand_i] = buf;
+		tmp--;
+	}
+}
+
+/*
+void mix(char **str, const int n)
+{
 	//srand(time(0));
 	int tmp = n - 1;
 	for (int i = 0; tmp > 0; i++) {
@@ -21,8 +34,10 @@ void mix(char **str, const int n)
 		strcpy(str[tmp], str[rand_int]);
 		strcpy(str[rand_int], buf);
 		tmp--;
+		free(buf);
 	}
 }
+*/
 /*
 void str_to_bstree(char **str, const int num, bstree *root) 
 {
@@ -59,6 +74,7 @@ int main()
 		strcpy(str[i], buf);
 		//free(buf);
 	}
+	//free(buf);
 	//printf_array_str(str, num);
 	mix(str, num);
 	//printf_array_str(str, num);
@@ -82,9 +98,9 @@ int main()
 		printf("%d : %s", (tree_arr[i])->value, (tree_arr[i])->key);
 	}
 	*/
-	//free_str(str, num);
-	//free(str);
+	free_str(str, num);
+	free(str);
 	//printf("%p\n", text);
-	//fclose(text);
+	fclose(text);
 	return 0;
 }
