@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include "bstree.h"
-//#include <time.h>
 
 int getrand(int min, int max)
 {
@@ -22,30 +21,6 @@ void mix(char **str, const int n)
 	}
 }
 
-/*
-void mix(char **str, const int n)
-{
-	//srand(time(0));
-	int tmp = n - 1;
-	for (int i = 0; tmp > 0; i++) {
-		int rand_int = getrand(0, tmp);
-		char *buf = malloc(strlen(str[tmp]) + 1);
-		strcpy(buf, str[tmp]);
-		strcpy(str[tmp], str[rand_int]);
-		strcpy(str[rand_int], buf);
-		tmp--;
-		free(buf);
-	}
-}
-*/
-/*
-void str_to_bstree(char **str, const int num, bstree *root) 
-{
-	for (int i = 1; i < num; i++) {
-		bstree_add(root, str[i], getrand(0, 100000));
-	}
-}
-*/
 void printf_array_str(char **str, int num)
 {
 	for (int i = 0; i < num; i++) {
@@ -64,58 +39,48 @@ void free_str(char **str, int num)
 int main()
 {
 	FILE *text = fopen("text.txt", "r");
-	//printf("%p\n", text);
 	char buf[512];
-	int num = 10;
+	int num = 20;
 	char **str = malloc(num * sizeof(char*));
-	/*
-	size_t len = 0;
-	for (int i = 0; getline(&buf, &len, text) != -1; i++) {
-		str[i] = (char*) malloc(strlen(buf) + 1);
-		strcpy(str[i], buf);
-		free(buf);
-		len = 0;
-		buf = 0;
-	}
-	*/
 	for (int i = 0; fgets(buf, 512, text) != NULL; i++) {
-		//fgets(buf, 512, text);
 		str[i] = (char*) malloc(strlen(buf) + 1);
 		strcpy(str[i], buf);
 	}
-	//printf_array_str(str, num);
+	printf("\n\n");
+	printf_array_str(str, num);
+	printf("MIX\n");
 	mix(str, num);
-	//printf_array_str(str, num);
-	//
-	//srand(time(0));
+	printf_array_str(str, num);
 	bstree *root;
-	root = bstree_create(str[getrand(0, 10)], getrand(0, 10));
-	//printf("ROOT OF TREE: %d , %s", root->value, root->key);
-	//bstree_add(root, str[1], getrand(1, 10000));
-	//str_to_bstree(str, num, root);
-	//bstree **tree_arr = malloc(sizeof(bstree*) * 10);
+	root = bstree_create(str[getrand(0, num)], getrand(0, num));
+	printf("ROOT - %d : %s\n", root->value, root->key);
+
 	for (int i = 1; i < num; i++) {
-		//tree_arr[i] = malloc(sizeof(bstree));
-		//tree_arr[i] = bstree_add(root, str[i], getrand(1, 10));
-		bstree_add(root, str[i], getrand(1, 10));
+		
+		bstree_add(root, str[i], getrand(1, num));
 	}
 	print_tree(root);
-	//bstree *tmp = root->right;
-	/*
-	for (int i = 0; i < num; i++) {
-		printf("%d : %s", (tree_arr[i])->value, (tree_arr[i])->key);
-	}
-	*/
-	//bstree *example = bstree_lookup(root, "achtung");
-	char *tmp_key = "числах";
+	printf("\n\n");
+	char *tmp_key = "морской";
 	bstree *example = bstree_search(root, tmp_key);
 	if (example != NULL) {
-		printf("%d : %s", example->value, example->key);
+		printf("НАШЕЛ -\t%d : %s", example->value, example->key);
 	}
+
+	printf("\n\n");
+	bstree *min_node = bstree_min(root);
+	if (min_node != NULL) {
+		printf("Минимальный узел -\t%d : %s", min_node->value, min_node->key);
+	}
+
+	bstree *max_node = bstree_max(root);
+	if (max_node != NULL) {
+		printf("Максимальный узел -\t%d : %s", max_node->value, max_node->key);
+	}
+
 	free(root);
 	free_str(str, num);
 	free(str);
-	//printf("%p\n", text);
 	fclose(text);
 	return 0;
 }
