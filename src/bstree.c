@@ -19,13 +19,20 @@ bstree *bstree_create(char *key, int value)
 
 bstree *bstree_add(bstree *tree, char *key, int value)
 {
+	//printf("%s", key);
 	if (tree == NULL) {
+		printf("СОЗДАЮ\n");
 		tree = bstree_create(key, value);
 	} else if (strcmp(key, tree->key) < 0) {
+		//printf("СРАВНИВАЮ\n%s : %s", key, tree->key);
+		printf("ПЕРЕХОД ВЛЕВО\n");
 		tree->left = bstree_add(tree->left, key, value);
 	} else {
+		//printf("СРАВНИВАЮ\n%s : %s", key, tree->key);
+		printf("ПЕРЕХОД ВПРАВО\n");
 		tree->right = bstree_add(tree->right, key, value);
 	}
+	printf("ВОЗВРАЩАЮ\n");
 	return tree;
 }
 
@@ -38,13 +45,13 @@ bstree *bstree_search(bstree *node, char *key)
 		printf("%s -- %s", key, node->key);
 		
 		if (strcmp(tmp, node->key) < 0) {
-			printf("Прошел в лево\n");
+			//printf("Прошел в лево\n");
 			free(tmp);
 			node = node->left;
 			continue;
 		}
 		if (strcmp(tmp, node->key) > 0) {
-			printf("Прошел в право\n");
+			//printf("Прошел в право\n");
 			free(tmp);
 			node = node->right;
 			continue;
@@ -62,7 +69,7 @@ bstree *bstree_min(bstree *tree) {
 		return NULL;
 	}
 	while (tree->left != NULL) {
-		printf("Иду на лево\n");
+		//printf("Иду на лево\n");
 		tree = tree->left;
 	}
 	return tree;
@@ -73,7 +80,7 @@ bstree *bstree_max(bstree *tree) {
 		return NULL;
 	}
 	while (tree->right !=  NULL) {
-		printf("Иду на право\n");
+		//printf("Иду на право\n");
 		tree = tree->right;
 	}
 	return tree;
@@ -85,11 +92,7 @@ void print_tree(bstree *tree)
     {
     	return;
     }
-    printf("Пошел на право\n");
-    print_tree(tree->right);
-    printf("Пошел на лево\n");
     print_tree(tree->left);
-    //printf("%d : %s", tree->value, tree->key);
-    
-    //print_tree(tree->right);
+    printf("%d : %s", tree->value, tree->key);
+    print_tree(tree->right);
 }
