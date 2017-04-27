@@ -20,19 +20,20 @@ bstree *bstree_create(char *key, int value)
 bstree *bstree_add(bstree *tree, char *key, int value)
 {
 	//printf("%s", key);
+	int tmp = strcmp(key, tree->key);
 	if (tree == NULL) {
-		printf("СОЗДАЮ\n");
+		//printf("СОЗДАЮ\n");
 		tree = bstree_create(key, value);
-	} else if (strcmp(key, tree->key) < 0) {
+	} else if (tmp < 0) {
 		//printf("СРАВНИВАЮ\n%s : %s", key, tree->key);
-		printf("ПЕРЕХОД ВЛЕВО\n");
+		//printf("ПЕРЕХОД ВЛЕВО\n");
 		tree->left = bstree_add(tree->left, key, value);
 	} else {
 		//printf("СРАВНИВАЮ\n%s : %s", key, tree->key);
-		printf("ПЕРЕХОД ВПРАВО\n");
+		//printf("ПЕРЕХОД ВПРАВО\n");
 		tree->right = bstree_add(tree->right, key, value);
 	}
-	printf("ВОЗВРАЩАЮ\n");
+	//printf("ВОЗВРАЩАЮСЬ\n");
 	return tree;
 }
 
@@ -42,21 +43,21 @@ bstree *bstree_search(bstree *node, char *key)
 		char *tmp = malloc(strlen(key) + 1);
 		strcpy(tmp, key);
 		tmp[(strlen(key))] = '\n';
-		printf("%s -- %s", key, node->key);
-		
-		if (strcmp(tmp, node->key) < 0) {
+		//printf("%s -- %s", key, node->key);
+		int n = strcmp(tmp, node->key);
+		if (n < 0) {
 			//printf("Прошел в лево\n");
 			free(tmp);
 			node = node->left;
 			continue;
 		}
-		if (strcmp(tmp, node->key) > 0) {
+		if (n > 0) {
 			//printf("Прошел в право\n");
 			free(tmp);
 			node = node->right;
 			continue;
 		}
-		if (strcmp(tmp, node->key) == 0) {
+		if (n == 0) {
 			free(tmp);
 			return node;
 		}
