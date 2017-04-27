@@ -3,7 +3,16 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include "bstree.h"
+#include "hashtab.h"
 #include <time.h>
+#include <sys/time.h>
+
+double wtime()
+{
+    struct timeval t;
+    gettimeofday(&t, NULL);
+    return (double)t.tv_sec + (double)t.tv_usec * 1E-6;
+}
 
 int getrand(int min, int max)
 {
@@ -23,11 +32,13 @@ void mix(char **str, const int n)
 }
 
 void printf_array_str(char **str, int num)
-{
+{	
+	FILE *f = fopen("total.txt", "w");
 	for (int i = 0; i < num; i++) {
-		printf("%p : %d : %s", str[i], i + 1, str[i]);
+		fprintf(f, "%p : %d : %s", str[i], i + 1, str[i]);
 	}
 	printf("\n\n");
+	fclose(f);
 }
 
 void free_str(char **str, int num)
@@ -53,17 +64,31 @@ int main()
 	//printf_array_str(str, num);
 	//printf("MIX\n");
 	mix(str, num);
-	//printf_array_str(str, num);
-	//
+	printf_array_str(str, num);
+	//ДЕЕЕЕРЕЕЕЕВОООООО
+	/*
 	bstree *root;
 	root = bstree_create(str[getrand(0, num)], getrand(0, num));
 	printf("ROOT - %d : %s\n", root->value, root->key);
 
 	for (int i = 1; i < num; i++) {
 		bstree_add(root, str[i], getrand(1, num));
+		if ((i + 1) % 10000 == 0) {
+			printf("%d\n", i + 1);
+			char *g = str[getrand(0, i - 10)];
+			printf("%s", g);
+			float t = wtime();
+			bstree *node_search = bstree_search(root, g);
+			t = wtime() - t;
+			printf("%f\n", t);
+			if (node_search != NULL) {
+				printf("\nНАШЕЛ -\t%d : %s", node_search->value, node_search->key);
+			}
+		}
 	}
 	//
-	print_tree(root);
+	
+	//print_tree(root);
 	printf("\n\n");
 	char *tmp_key = "морской";
 	bstree *example = bstree_search(root, tmp_key);
@@ -81,10 +106,29 @@ int main()
 	if (max_node != NULL) {
 		printf("Максимальный узел -\t%d : %s", max_node->value, max_node->key);
 	}
+	*/
+	//ХЭЭЭЭЭЭЩ ТАБЛИИИИИИИЦАААА
+	
+	listnode **hashtab = malloc(128 * sizeof(listnode*));
+	hashtab_init(hashtab);
+	//hashtab_add(hashtab, str[getrand(0, num)], getrand(0, num));
+	printf("\n\n");
+	
+	for (int i = 0; i < num; i++) {
+		hashtab_add(hashtab, str[i], getrand(0, num));
+	}
+	
+	listnode *search_node = hashtab_lookup(hashtab, "морской");
+	if (search_node != NULL) {
+		printf("%d : %s", search_node->value, search_node->key);
+	}
+	
+	hashtab_delete(hashtab, "морской");
+	
 	//
-	free(root);
-	free_str(str, num);
-	free(str);
+	//free(root);
+	//free_str(str, num);
+	//free(str);
 	fclose(text);
 	return 0;
 }

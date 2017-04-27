@@ -4,7 +4,7 @@
 typedef struct listnode {
 	char *key;
 	int value;
-	listnode *next;
+	struct listnode *next;
 } listnode;
 
 int hashtab_hash(char *key);

@@ -1,3 +1,5 @@
+#include <string.h>
+#include <stdlib.h>
 #include "hashtab.h"
 #define SIZE_ARR 128
 
@@ -12,7 +14,6 @@ int hashtab_hash(char *key)
 
 void hashtab_init(struct listnode **hashtab)
 {
-	//malloc(sizeof(listnode*) * 128);
 	for (int i = 0; i < SIZE_ARR; i++) {
 		hashtab[i] = NULL;
 	}
@@ -21,20 +22,23 @@ void hashtab_init(struct listnode **hashtab)
 void hashtab_add(struct listnode **hashtab, char *key, int value)
 {
 	int index = hashtab_hash(key);
-	listnode *node = malloc(sizeof(node*));
+	listnode *node;
+	node = malloc(sizeof(*node));
 	if (node != NULL) {
 		node->key = key;
 		node->value = value;
+		/*
 		while (hashtab[index] != NULL) {
 			index++;
 			if (index >= SIZE_ARR) {
 				return;
 			}
 		}
+		*/
 		node->next = hashtab[index];
 		hashtab[index] = node;
 	}
-	free(node);
+	//free(node);
 }
 
 struct listnode *hashtab_lookup(struct listnode **hashtab, char *key)
@@ -51,5 +55,19 @@ struct listnode *hashtab_lookup(struct listnode **hashtab, char *key)
 
 void hashtab_delete(struct listnode **hashtab, char *key)
 {
-	
+	int index = hashtab_hash(key);
+	listnode *p;
+	listnode *prev = NULL;
+	for (p = hashtab[index]; p != NULL; p = p->next) {
+		if (strcmp(p->key, key) == 0) {
+			if (prev == NULL) {
+				hashtab[index] = p->next;
+			} else {
+				prev->next = p->next;
+			}
+			free(p);
+			return;
+		}
+		prev = p;
+	}
 }

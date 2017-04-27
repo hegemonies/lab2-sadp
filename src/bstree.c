@@ -20,11 +20,10 @@ bstree *bstree_create(char *key, int value)
 bstree *bstree_add(bstree *tree, char *key, int value)
 {
 	//printf("%s", key);
-	int tmp = strcmp(key, tree->key);
 	if (tree == NULL) {
 		//printf("СОЗДАЮ\n");
 		tree = bstree_create(key, value);
-	} else if (tmp < 0) {
+	} else if (strcmp(key, tree->key) < 0) {
 		//printf("СРАВНИВАЮ\n%s : %s", key, tree->key);
 		//printf("ПЕРЕХОД ВЛЕВО\n");
 		tree->left = bstree_add(tree->left, key, value);
