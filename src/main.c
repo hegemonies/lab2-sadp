@@ -66,7 +66,7 @@ int main()
 	mix(str, num);
 	printf_array_str(str, num);
 	//ДЕЕЕЕРЕЕЕЕВОООООО
-	/*
+	
 	bstree *root;
 	root = bstree_create(str[getrand(0, num)], getrand(0, num));
 	printf("ROOT - %d : %s\n", root->value, root->key);
@@ -77,9 +77,12 @@ int main()
 			printf("%d\n", i + 1);
 			char *g = str[getrand(0, i - 10)];
 			printf("%s", g);
+			bstree *node_search;
+
 			float t = wtime();
-			bstree *node_search = bstree_search(root, g);
+			node_search = bstree_search(root, g);
 			t = wtime() - t;
+
 			printf("%f\n", t);
 			if (node_search != NULL) {
 				printf("\nНАШЕЛ -\t%d : %s", node_search->value, node_search->key);
@@ -90,8 +93,12 @@ int main()
 	
 	//print_tree(root);
 	printf("\n\n");
-	char *tmp_key = "морской";
-	bstree *example = bstree_search(root, tmp_key);
+	//char *tmp_key = "морской";
+	bstree *example;
+	float t = wtime();
+	example = bstree_search(root, "чистым\n");
+	t = wtime() - t;
+	printf("\n%.4f", t);
 	if (example != NULL) {
 		printf("\nНАШЕЛ -\t%d : %s", example->value, example->key);
 	}
@@ -106,9 +113,9 @@ int main()
 	if (max_node != NULL) {
 		printf("Максимальный узел -\t%d : %s", max_node->value, max_node->key);
 	}
-	*/
-	//ХЭЭЭЭЭЭЩ ТАБЛИИИИИИИЦАААА
 	
+	//ХЭЭЭЭЭЭЩ ТАБЛИИИИИИИЦАААА
+	/*
 	listnode **hashtab = malloc(128 * sizeof(listnode*));
 	hashtab_init(hashtab);
 	//hashtab_add(hashtab, str[getrand(0, num)], getrand(0, num));
@@ -124,11 +131,11 @@ int main()
 	}
 	
 	hashtab_delete(hashtab, "морской");
-	
+	*/
 	//
-	//free(root);
-	//free_str(str, num);
-	//free(str);
+	free(root);
+	free_str(str, num);
+	free(str);
 	fclose(text);
 	return 0;
 }

@@ -27,7 +27,7 @@ bstree *bstree_add(bstree *tree, char *key, int value)
 		//printf("СРАВНИВАЮ\n%s : %s", key, tree->key);
 		//printf("ПЕРЕХОД ВЛЕВО\n");
 		tree->left = bstree_add(tree->left, key, value);
-	} else {
+	} else if (strcmp(key, tree->key) > 0){
 		//printf("СРАВНИВАЮ\n%s : %s", key, tree->key);
 		//printf("ПЕРЕХОД ВПРАВО\n");
 		tree->right = bstree_add(tree->right, key, value);
@@ -41,22 +41,22 @@ bstree *bstree_search(bstree *node, char *key)
 	while (node) {
 		char *tmp = malloc(strlen(key) + 1);
 		strcpy(tmp, key);
-		tmp[(strlen(key))] = '\n';
-		//printf("%s -- %s", key, node->key);
-		int n = strcmp(tmp, node->key);
-		if (n < 0) {
+		tmp[(strlen(key))] = '\0';
+		printf("%s -- %s", tmp, node->key);
+		int num = strcmp(tmp, node->key);
+		if (num < 0) {
 			//printf("Прошел в лево\n");
 			free(tmp);
 			node = node->left;
 			continue;
 		}
-		if (n > 0) {
+		if (num > 0) {
 			//printf("Прошел в право\n");
 			free(tmp);
 			node = node->right;
 			continue;
 		}
-		if (n == 0) {
+		if (num == 0) {
 			free(tmp);
 			return node;
 		}
