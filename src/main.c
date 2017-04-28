@@ -33,12 +33,12 @@ void mix(char **str, const int n)
 
 void printf_array_str(char **str, int num)
 {	
-	FILE *f = fopen("total.txt", "w");
+	//FILE *f = fopen("total.txt", "w");
 	for (int i = 0; i < num; i++) {
-		fprintf(f, "%p : %d : %s", str[i], i + 1, str[i]);
+		printf("%p : %d : %s", str[i], i + 1, str[i]);
 	}
-	printf("\n\n");
-	fclose(f);
+	//printf("\n\n");
+	//fclose(f);
 }
 
 void free_str(char **str, int num)
@@ -51,22 +51,22 @@ void free_str(char **str, int num)
 int main()
 {
 	srand(time(0));
-	FILE *text = fopen("war_and_peace.txt", "r");
+	FILE *text = fopen("text.txt", "r");
 	char buf[512];
-	int num = 50000;
+	int num = 5;
 	char **str = malloc(num * sizeof(char*));
 	for (int i = 0; fgets(buf, 512, text) != NULL; i++) {
 		str[i] = (char*) malloc(strlen(buf) + 1);
 		strcpy(str[i], buf);
 	}
 	//
-	//printf("\n\nORIGINAL\n");
-	//printf_array_str(str, num);
-	//printf("MIX\n");
+	printf("\n\nORIGINAL\n");
+	printf_array_str(str, num);
+	printf("MIX\n");
 	mix(str, num);
 	printf_array_str(str, num);
 	//ДЕЕЕЕРЕЕЕЕВОООООО
-	
+	/*
 	bstree *root;
 	root = bstree_create(str[getrand(0, num)], getrand(0, num));
 	printf("ROOT - %d : %s\n", root->value, root->key);
@@ -79,7 +79,7 @@ int main()
 			printf("%s", g);
 			bstree *node_search;
 
-			float t = wtime();
+			double t = wtime();
 			node_search = bstree_search(root, g);
 			t = wtime() - t;
 
@@ -113,29 +113,53 @@ int main()
 	if (max_node != NULL) {
 		printf("Максимальный узел -\t%d : %s", max_node->value, max_node->key);
 	}
-	
+	*/
 	//ХЭЭЭЭЭЭЩ ТАБЛИИИИИИИЦАААА
-	/*
-	listnode **hashtab = malloc(128 * sizeof(listnode*));
+	
+	listnode **hashtab = malloc(5 * sizeof(listnode*));
 	hashtab_init(hashtab);
 	//hashtab_add(hashtab, str[getrand(0, num)], getrand(0, num));
 	printf("\n\n");
 	
 	for (int i = 0; i < num; i++) {
-		hashtab_add(hashtab, str[i], getrand(0, num));
+	/*
+		printf("\n%d\n", strlen(str[i]));
+		for (int j = 0; j < strlen(str[i]); j++) {
+			printf("%c", str[j]);
+		}
+		*/
+		int v = getrand(0, num);
+		hashtab_add(hashtab, str[i], v);
+	}
+	for (int i = 0; i < 5; i++) {
+		if (hashtab[i] != NULL) {
+			//printf("%d *&* %s", hashtab[i]->value, hashtab[i]->key);
+			listnode *tmp_node = hashtab[i];
+			while (tmp_node != NULL) {
+				printf("%d *&* %s", tmp_node->value, tmp_node->key);
+				tmp_node = tmp_node->next;
+			}
+		} else {
+			printf("NULL\n");
+		}
 	}
 	
-	listnode *search_node = hashtab_lookup(hashtab, "морской");
+	listnode *search_node = hashtab_lookup(hashtab, "морской\n");
 	if (search_node != NULL) {
-		printf("%d : %s", search_node->value, search_node->key);
+		printf("\nSearch:\n%d : %s", search_node->value, search_node->key);
 	}
 	
-	hashtab_delete(hashtab, "морской");
-	*/
+	hashtab_delete(hashtab, "морской\n");
+	
+	listnode *search_node_1 = hashtab_lookup(hashtab, "морской\n");
+	if (search_node_1 != NULL) {
+		printf("%d : %s", search_node_1->value, search_node_1->key);
+	}
 	//
-	free(root);
-	free_str(str, num);
-	free(str);
+	//free(root);
+	//free_str(str, num);
+	//free(str);
+	
 	fclose(text);
 	return 0;
 }

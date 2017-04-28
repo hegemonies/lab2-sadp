@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "hashtab.h"
-#define SIZE_ARR 128
+#define SIZE_ARR 5
 
 int hashtab_hash(char *key)
 {
@@ -23,10 +23,11 @@ void hashtab_add(struct listnode **hashtab, char *key, int value)
 {
 	int index = hashtab_hash(key);
 	listnode *node;
-	node = malloc(sizeof(*node));
-	if (node != NULL) {
-		node->key = key;
-		node->value = value;
+	node = malloc(sizeof(listnode*));
+	hashtab[index] = malloc(sizeof(listnode));
+	if (hashtab[index] != NULL) {
+		hashtab[index]->key = key;
+		hashtab[index]->value = value;
 		/*
 		while (hashtab[index] != NULL) {
 			index++;
@@ -35,10 +36,9 @@ void hashtab_add(struct listnode **hashtab, char *key, int value)
 			}
 		}
 		*/
-		node->next = hashtab[index];
-		hashtab[index] = node;
+		hashtab[index]->next = NULL;
+		return;
 	}
-	//free(node);
 }
 
 struct listnode *hashtab_lookup(struct listnode **hashtab, char *key)

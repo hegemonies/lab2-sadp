@@ -42,7 +42,7 @@ bstree *bstree_search(bstree *node, char *key)
 		char *tmp = malloc(strlen(key) + 1);
 		strcpy(tmp, key);
 		tmp[(strlen(key))] = '\0';
-		printf("%s -- %s", tmp, node->key);
+		//printf("%s -- %s", tmp, node->key);
 		int num = strcmp(tmp, node->key);
 		if (num < 0) {
 			//printf("Прошел в лево\n");
