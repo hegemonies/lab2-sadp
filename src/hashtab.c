@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "hashtab.h"
-#define SIZE_ARR 25000
+#define SIZE_ARR 2000
 
 int hashtab_hash(char *key)
 {
@@ -23,7 +23,7 @@ void hashtab_init(struct listnode **hashtab)
 void hashtab_add(struct listnode **hashtab, char *key, int value)
 {
 	int index = hashtab_hash(key);
-	printf("%d\n", index);
+	//printf("%d\n", index);
 	listnode *node = malloc(sizeof(*key));
 	if (node != NULL) {
 		node->key = key;
