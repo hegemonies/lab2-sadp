@@ -6,6 +6,7 @@
 #include "hashtab.h"
 #include <time.h>
 #include <sys/time.h>
+#define SIZE_ARR 25000
 
 double wtime()
 {
@@ -51,9 +52,9 @@ void free_str(char **str, int num)
 int main()
 {
 	srand(time(0));
-	FILE *text = fopen("text.txt", "r");
+	FILE *text = fopen("war_and_peace.txt", "r");
 	char buf[512];
-	int num = 5;
+	int num = 50000;
 	char **str = malloc(num * sizeof(char*));
 	for (int i = 0; fgets(buf, 512, text) != NULL; i++) {
 		str[i] = (char*) malloc(strlen(buf) + 1);
@@ -116,7 +117,7 @@ int main()
 	*/
 	//ХЭЭЭЭЭЭЩ ТАБЛИИИИИИИЦАААА
 	
-	listnode **hashtab = malloc(5 * sizeof(listnode*));
+	listnode **hashtab = malloc(SIZE_ARR * sizeof(listnode*));
 	hashtab_init(hashtab);
 	//hashtab_add(hashtab, str[getrand(0, num)], getrand(0, num));
 	printf("\n\n");
@@ -131,17 +132,14 @@ int main()
 		int v = getrand(0, num);
 		hashtab_add(hashtab, str[i], v);
 	}
-	for (int i = 0; i < 5; i++) {
-		if (hashtab[i] != NULL) {
-			//printf("%d *&* %s", hashtab[i]->value, hashtab[i]->key);
-			listnode *tmp_node = hashtab[i];
-			while (tmp_node != NULL) {
-				printf("%d *&* %s", tmp_node->value, tmp_node->key);
-				tmp_node = tmp_node->next;
-			}
-		} else {
-			printf("NULL\n");
+
+	for (int i = 0; i < SIZE_ARR; i++) {
+		listnode *tmp_node = hashtab[i];
+		while (tmp_node) {
+			printf("%d :=: %s\t", hashtab_hash(tmp_node->key), tmp_node->key);
+			tmp_node = tmp_node->next;
 		}
+		printf("\n");
 	}
 	
 	listnode *search_node = hashtab_lookup(hashtab, "морской\n");

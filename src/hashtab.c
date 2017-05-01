@@ -1,7 +1,8 @@
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "hashtab.h"
-#define SIZE_ARR 5
+#define SIZE_ARR 25000
 
 int hashtab_hash(char *key)
 {
@@ -9,7 +10,7 @@ int hashtab_hash(char *key)
 	for (int i = 0; i < strlen(key); i++) {
 		hash = (hash * 127 + key[i]) % SIZE_ARR;
 	}
-	return hash;
+	return abs(hash);
 }
 
 void hashtab_init(struct listnode **hashtab)
@@ -22,22 +23,14 @@ void hashtab_init(struct listnode **hashtab)
 void hashtab_add(struct listnode **hashtab, char *key, int value)
 {
 	int index = hashtab_hash(key);
-	listnode *node;
-	node = malloc(sizeof(listnode*));
-	hashtab[index] = malloc(sizeof(listnode));
-	if (hashtab[index] != NULL) {
-		hashtab[index]->key = key;
-		hashtab[index]->value = value;
-		/*
-		while (hashtab[index] != NULL) {
-			index++;
-			if (index >= SIZE_ARR) {
-				return;
-			}
-		}
-		*/
-		hashtab[index]->next = NULL;
-		return;
+	printf("%d\n", index);
+	listnode *node = malloc(sizeof(*key));
+	if (node != NULL) {
+		node->key = key;
+		node->value = value;
+		node->next = hashtab[index];
+		hashtab[index] = node;
+		//printf("%d :: %p :: %p :: %s\n", node->value, hashtab[index], node->next, node->key);
 	}
 }
 
