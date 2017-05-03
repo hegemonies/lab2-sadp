@@ -6,7 +6,7 @@
 #include "hashtab.h"
 #include <time.h>
 #include <sys/time.h>
-#define SIZE_ARR 2000
+#define SIZE_ARR 50000
 
 double wtime()
 {
@@ -61,13 +61,13 @@ int main()
 		strcpy(str[i], buf);
 	}
 	//
-	/*
-	printf("\n\nORIGINAL\n");
-	printf_array_str(str, num);
-	printf("MIX\n");
+	
+	//printf("\n\nORIGINAL\n");
+	//printf_array_str(str, num);
+	//printf("MIX\n");
 	mix(str, num);
-	printf_array_str(str, num);
-	*/
+	//printf_array_str(str, num);
+	
 	//ДЕЕЕЕРЕЕЕЕВОООООО
 	/*
 	bstree *root;
@@ -76,7 +76,7 @@ int main()
 
 	for (int i = 1; i < num; i++) {
 		bstree_add(root, str[i], getrand(1, num));
-		if ((i + 1) % 10000 == 0) {
+		if ((i + 1) % 26 == 0) {
 			printf("!!!!!!!!%d\n", i + 1);
 
 			for (int j = 0; j < 10; j++) {
@@ -99,7 +99,7 @@ int main()
 						avarage += t[k];
 					}
 					avarage /= 10;
-					printf("AVARAGE :: %f\n", avarage);
+					printf("AVARAGE :: %0.10f\n", avarage);
 				}
 
 			}
@@ -112,7 +112,7 @@ int main()
 		}
 	}
 	// поиск
-
+	
 	//print_tree(root);
 	printf("\n\n");
 	//
@@ -141,7 +141,8 @@ int main()
 	for (int i = 1; i < num; i++) {
 		int v = getrand(0, num);
 		hashtab_add(hashtab, str[i], v);
-		if ((i + 1) % 10000 == 0) {
+		/*
+		if ((i + 1) % 26 == 0) {
 			printf("!!!!!!!!%d\n", i + 1);
 
 			for (int j = 0; j < 10; j++) {
@@ -162,16 +163,35 @@ int main()
 					avarage /= 10;
 					printf("AVARAGE :: %.10f\n", avarage);
 				}
-				/*
+				
 				if (node_search != NULL) {
 					printf("\nНАШЕЛ -\t%d : %s", node_search->value, node_search->key);
 				}
-				*/
+				
 			}
 			
-			
+			*/
+		}
+	//кол-во колизий
+	int count[num];
+	int m = 0;
+	for (int i = 0; i < num; i++) {
+		count[i] = hashtab_hash(str[i]);
+		if ((i + 1) % 10000 == 0) {
+			for (int j = 0; j < i; j++) {
+				for (int k = 0; k < i; k++) {
+					if (j != k) {
+						if (count[j] == count[k]) {
+							m++;
+						}
+					}
+				}
+			}
+			printf("%d () %d\n", i, m);
+			m = 0;
 		}
 	}
+	//printf("%d\n", m);
 	/*
 	for (int i = 0; i < SIZE_ARR; i++) {
 		listnode *tmp_node = hashtab[i];
@@ -181,8 +201,8 @@ int main()
 		}
 		printf("\n");
 	}
-	*/
-	/*
+	
+	
 	listnode *search_node = hashtab_lookup(hashtab, "морской\n");
 	if (search_node != NULL) {
 		printf("\nSearch:\n%d : %s", search_node->value, search_node->key);
