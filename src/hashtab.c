@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "hashtab.h"
-#define SIZE_ARR 50000
+#define SIZE_ARR 50
 
 int hashtab_hash(char *key)
 {

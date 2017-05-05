@@ -6,7 +6,7 @@
 #include "hashtab.h"
 #include <time.h>
 #include <sys/time.h>
-#define SIZE_ARR 50000
+#define SIZE_ARR 50
 
 double wtime()
 {
@@ -52,9 +52,9 @@ void free_str(char **str, int num)
 int main()
 {
 	srand(time(0));
-	FILE *text = fopen("war_and_peace.txt", "r");
+	FILE *text = fopen("ex3.txt", "r");
 	char buf[512];
-	int num = 50000;
+	int num = 260;
 	char **str = malloc(num * sizeof(char*));
 	for (int i = 0; fgets(buf, 512, text) != NULL; i++) {
 		str[i] = (char*) malloc(strlen(buf) + 1);
@@ -65,11 +65,11 @@ int main()
 	//printf("\n\nORIGINAL\n");
 	//printf_array_str(str, num);
 	//printf("MIX\n");
-	mix(str, num);
+	//mix(str, num);
 	//printf_array_str(str, num);
 	
 	//ДЕЕЕЕРЕЕЕЕВОООООО
-	/*
+	
 	bstree *root;
 	root = bstree_create(str[getrand(0, num)], getrand(0, num));
 	printf("ROOT - %d : %s\n", root->value, root->key);
@@ -87,12 +87,12 @@ int main()
 				t[j] = wtime();
 				node_search = bstree_search(root, g);
 				t[j] = wtime() - t[j];
-				printf("%f\n", t[j]);
-				
+				//printf("%f\n", t[j]);
+				/*
 				if (node_search != NULL) {
 					printf("НАШЕЛ -\t%d : %s", node_search->value, node_search->key);
 				}
-				
+				*/
 				if ((j + 1) == 10) {
 					double avarage = 0;
 					for (int k = 0; k < 10; k++) {
@@ -104,11 +104,11 @@ int main()
 
 			}
 			
-			
+			/*
 			if (node_search != NULL) {
 				printf("\nНАШЕЛ -\t%d : %s", node_search->value, node_search->key);
 			}
-			
+			*/
 		}
 	}
 	// поиск
@@ -126,9 +126,9 @@ int main()
 	if (max_node != NULL) {
 		printf("Максимальный узел -\t%d : %s", max_node->value, max_node->key);
 	}
-	*/
-	//ХЭЭЭЭЭЭЩ ТАБЛИИИИИИИЦАААА
 	
+	//ХЭЭЭЭЭЭЩ ТАБЛИИИИИИИЦАААА
+	/*
 	listnode **hashtab = malloc(SIZE_ARR * sizeof(listnode*));
 	hashtab_init(hashtab);
 	//hashtab_add(hashtab, str[getrand(0, num)], getrand(0, num));
@@ -141,7 +141,6 @@ int main()
 	for (int i = 1; i < num; i++) {
 		int v = getrand(0, num);
 		hashtab_add(hashtab, str[i], v);
-		/*
 		if ((i + 1) % 26 == 0) {
 			printf("!!!!!!!!%d\n", i + 1);
 
@@ -169,10 +168,11 @@ int main()
 				}
 				
 			}
-			
-			*/
 		}
+	}
+	*/
 	//кол-во колизий
+	/*
 	int count[num];
 	int m = 0;
 	for (int i = 0; i < num; i++) {
@@ -191,6 +191,7 @@ int main()
 			m = 0;
 		}
 	}
+	*/
 	//printf("%d\n", m);
 	/*
 	for (int i = 0; i < SIZE_ARR; i++) {
@@ -223,3 +224,4 @@ int main()
 	fclose(text);
 	return 0;
 }
+
